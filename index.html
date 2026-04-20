@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Turki Alhumaid — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dark: #8a6620;
+    --ink: #0e0d0b; --ink2: #2a2720; --cream: #f8f4ee; --cream2: #f0ead9;
+    --muted: #7a7262; --border: rgba(201,168,76,0.25);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--ink); color: var(--cream); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 5vw;
+    background: rgba(14,13,11,0.88); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 300; letter-spacing: 0.08em; color: var(--gold); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cream2); text-decoration: none; transition: color 0.3s; font-weight: 300; }
+  .nav-links a:hover { color: var(--gold); }
+
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 10rem 10vw 6rem; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -20%; right: -5%;
+    width: 55vw; height: 110vh;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .hero-eyebrow::before { content: ''; display: block; width: 3rem; height: 1px; background: var(--gold); }
+  .hero-name { font-family: var(--serif); font-size: clamp(4rem, 9vw, 8rem); font-weight: 300; line-height: 1.0; color: var(--cream); margin-bottom: 0.2em; }
+  .hero-name em { font-style: italic; color: var(--gold-light); }
+  .hero-title { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 300; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 3rem; font-style: italic; }
+  .hero-desc { max-width: 560px; font-size: 1rem; line-height: 1.8; color: rgba(240,234,217,0.7); font-weight: 300; margin-bottom: 3.5rem; }
+  .btn-group { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .btn-primary { padding: 0.9rem 2.5rem; background: var(--gold); color: var(--ink); font-family: var(--sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-outline { padding: 0.9rem 2.5rem; background: transparent; border: 1px solid var(--border); color: var(--cream2); font-family: var(--sans); font-size: 0.78rem; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .scroll-indicator { position: absolute; bottom: 3rem; left: 10vw; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 1rem; }
+  .scroll-indicator::after { content: ''; display: block; width: 4rem; height: 1px; background: var(--muted); animation: extend 2s ease-in-out infinite; }
+  @keyframes extend { 0%,100%{width:2rem;opacity:0.4} 50%{width:5rem;opacity:1} }
+
+  section { padding: 8rem 10vw; }
+  .section-header { margin-bottom: 5rem; }
+  .section-num { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+  .section-num::before { content: ''; width: 2rem; height: 1px; background: var(--gold); }
+  .section-title { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; color: var(--cream); line-height: 1.1; }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+  .about { background: var(--ink2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .about-text { font-size: 1.05rem; line-height: 1.9; color: rgba(240,234,217,0.75); font-weight: 300; }
+  .about-text p + p { margin-top: 1.5rem; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .stat-card { border: 1px solid var(--border); padding: 2rem 1.5rem; position: relative; overflow: hidden; }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--gold); }
+  .stat-number { font-family: var(--serif); font-size: 3.5rem; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 0.5rem; }
+  .stat-label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; }
+  .project-card { background: var(--ink2); border: 1px solid var(--border); padding: 2.5rem; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; }
+  .project-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  .project-card:hover::after { transform: scaleX(1); }
+  .project-card:hover { background: rgba(201,168,76,0.04); }
+  .project-tag { display: inline-block; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--border); padding: 0.3rem 0.8rem; margin-bottom: 1.5rem; }
+  .project-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; color: var(--cream); margin-bottom: 1rem; line-height: 1.2; }
+  .project-desc { font-size: 0.88rem; line-height: 1.75; color: var(--muted); margin-bottom: 1.5rem; font-weight: 300; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .stack-pill { font-size: 0.68rem; letter-spacing: 0.1em; padding: 0.25rem 0.75rem; background: rgba(201,168,76,0.08); color: var(--gold-light); border: 1px solid var(--border); }
+
+  .skills { background: var(--ink2); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; }
+  .skill-group-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--gold-light); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); font-style: italic; }
+  .skill-item { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.2rem; }
+  .skill-name { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream2); font-weight: 300; }
+  .skill-bar { height: 1px; background: rgba(201,168,76,0.15); position: relative; }
+  .skill-fill { position: absolute; top: 0; left: 0; height: 1px; background: var(--gold); }
+
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .cert-card { border: 1px solid var(--border); padding: 1.8rem; position: relative; transition: border-color 0.3s; }
+  .cert-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--gold); }
+  .cert-card:hover { border-color: rgba(201,168,76,0.5); }
+  .cert-issuer { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .cert-name { font-family: var(--serif); font-size: 1.15rem; font-weight: 300; color: var(--cream); line-height: 1.3; }
+
+  .contact-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 8rem; align-items: start; }
+  .contact-intro { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 300; line-height: 1.4; color: var(--cream); margin-bottom: 2.5rem; }
+  .contact-intro em { font-style: italic; color: var(--gold-light); }
+  .contact-email { font-family: var(--serif); font-size: 1rem; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 1rem; transition: gap 0.3s; margin-bottom: 1.2rem; }
+  .contact-email::before { content: ''; width: 2rem; height: 1px; background: var(--gold); flex-shrink: 0; }
+  .contact-email:hover { gap: 1.5rem; }
+  .contact-phone { font-size: 0.9rem; color: var(--muted); display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+  .contact-phone::before { content: ''; width: 2rem; height: 1px; background: var(--border); flex-shrink: 0; }
+  .socials { display: flex; gap: 1.5rem; }
+  .social-link { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; padding-bottom: 2px; border-bottom: 1px solid transparent; }
+  .social-link:hover { color: var(--gold); border-color: var(--gold); }
+  .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .form-input, .form-textarea { background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--cream); font-family: var(--sans); font-size: 0.95rem; font-weight: 300; padding: 0.75rem 0; outline: none; transition: border-color 0.3s; width: 100%; }
+  .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+  .form-textarea { resize: none; height: 100px; }
+  ::placeholder { color: rgba(122,114,98,0.5); font-style: italic; }
+
+  footer { padding: 3rem 10vw; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--muted); }
+  .footer-logo { font-family: var(--serif); font-size: 1rem; color: var(--gold); }
+  .divider { width: 4rem; height: 1px; background: var(--gold); margin: 2rem 0; }
+
+  .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { gap: 1.2rem; }
+    .nav-links a { font-size: 0.68rem; letter-spacing: 0.08em; }
+    section { padding: 5rem 6vw; }
+    .hero { padding: 8rem 6vw 5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">TA</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certificates</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-eyebrow">Computer Science Student — King Faisal University</div>
+  <h1 class="hero-name">Turki <em>Alhumaid</em></h1>
+  <p class="hero-title">Software Developer & AI Enthusiast</p>
+  <p class="hero-desc">
+    Computer Science student with a strong foundation in problem solving and technical skills.
+    Interested in software development, machine learning, and artificial intelligence.
+    Highly motivated to learn, contribute, and develop professional expertise.
+  </p>
+  <div class="btn-group">
+    <a href="#projects" class="btn-primary">View My Work</a>
+    <a href="#contact" class="btn-outline">Get In Touch</a>
+  </div>
+  <div class="scroll-indicator">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-header fade-in">
+    <div class="section-num">01 — About</div>
+    <h2 class="section-title">Built on <em>Curiosity</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>
+        I'm a Computer Science student at King Faisal University (2021–2026), based in Alahsa,
+        with a GPA of 3.85/5. My academic journey has given me a strong foundation across
+        software engineering, data structures, algorithms, and AI.
+      </p>
+      <p>
+        I have a particular passion for machine learning and natural language processing,
+        having applied these in real-world projects ranging from fake review detection to
+        AI-powered mobile tourism apps.
+      </p>
+      <p>
+        I work well in team environments and bring strong analytical thinking, fast learning,
+        and a collaborative spirit to everything I build.
+      </p>
+      <div class="divider"></div>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <a href="https://linkedin.com/in/turkialhumaid-cs" target="_blank" class="btn-outline" style="font-size:0.72rem">LinkedIn</a>
+        <a href="https://github.com/xfcbe" target="_blank" class="btn-outline" style="font-size:0.72rem">GitHub</a>
+      </div>
+    </div>
+    <div class="about-stats fade-in">
+      <div class="stat-card">
+        <div class="stat-number">3.85</div>
+        <div class="stat-label">GPA / 5.0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Programming Languages</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background: var(--ink); padding: 8rem 10vw;">
+  <div class="section-header fade-in">
+    <div class="section-num">02 — Work</div>
+    <h2 class="section-title">Selected <em>Projects</em></h2>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <div class="project-tag">Graduation Project · Mobile App</div>
+      <h3 class="project-title">VISTA Tourist Guide</h3>
+      <p class="project-desc">A smart tourism mobile application providing secure authentication, real-time data synchronization, image recognition, and an AI-powered chatbot to enhance user experience.</p>
+      <div class="project-stack">
+        <span class="stack-pill">Flutter</span>
+        <span class="stack-pill">Firebase</span>
+        <span class="stack-pill">AI / Image Recognition</span>
+        <span class="stack-pill">Chatbot</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-tag">Machine Learning</div>
+      <h3 class="project-title">Fake Review Detection</h3>
+      <p class="project-desc">A machine learning system to detect fake and genuine reviews using NLP techniques, TF-IDF feature extraction, and multiple classification models including Logistic Regression, SVM, and Naive Bayes.</p>
+      <div class="project-stack">
+        <span class="stack-pill">Python</span>
+        <span class="stack-pill">NLP</span>
+        <span class="stack-pill">TF-IDF</span>
+        <span class="stack-pill">Scikit-learn</span>
+        <span class="stack-pill">SVM</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-tag">Web Application · ML</div>
+      <h3 class="project-title">Fake News Detection</h3>
+      <p class="project-desc">A web application that classifies news articles as real or fake in real time. Users input news content and receive instant predictions powered by NLP preprocessing and a Logistic Regression model.</p>
+      <div class="project-stack">
+        <span class="stack-pill">Python</span>
+        <span class="stack-pill">NLP</span>
+        <span class="stack-pill">TF-IDF</span>
+        <span class="stack-pill">Logistic Regression</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-tag">AI · NLP</div>
+      <h3 class="project-title">Scientific Paper Extraction</h3>
+      <p class="project-desc">An AI-assisted system that extracts structured data from scientific PDFs using an MCP architecture, with tools for PDF parsing, section detection, and keyword extraction via NLP and layout processing.</p>
+      <div class="project-stack">
+        <span class="stack-pill">MCP Architecture</span>
+        <span class="stack-pill">PDF Parsing</span>
+        <span class="stack-pill">NLP</span>
+        <span class="stack-pill">Python</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-header fade-in">
+    <div class="section-num">03 — Skills</div>
+    <h2 class="section-title">Areas of <em>Expertise</em></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="fade-in">
+      <div class="skill-group-title">Programming Languages</div>
+      <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Java</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">C++</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Dart</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">JavaScript</span><div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div></div>
+    </div>
+    <div class="fade-in">
+      <div class="skill-group-title">Machine Learning & AI</div>
+      <div class="skill-item"><span class="skill-name">Machine Learning</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Natural Language Processing</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Logistic Regression / SVM</span><div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Naive Bayes</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Model Evaluation</span><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+    </div>
+    <div class="fade-in">
+      <div class="skill-group-title">Tools & Frameworks</div>
+      <div class="skill-item"><span class="skill-name">Scikit-learn</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Flutter</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Firebase</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Pandas / Matplotlib</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Git / GitHub</span><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+    </div>
+    <div class="fade-in">
+      <div class="skill-group-title">Core CS</div>
+      <div class="skill-item"><span class="skill-name">Data Structures & Algorithms</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">OOP</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Database Management</span><div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Software Engineering</span><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Operating Systems</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATES -->
+<section id="certs" style="background: var(--ink); padding: 8rem 10vw;">
+  <div class="section-header fade-in">
+    <div class="section-num">04 — Certificates</div>
+    <h2 class="section-title">Professional <em>Credentials</em></h2>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card fade-in">
+      <div class="cert-issuer">SDAIA — سدايا</div>
+      <div class="cert-name">Data Engineering Foundations</div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-issuer">IBM</div>
+      <div class="cert-name">Python for Data Science, AI & Development</div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-issuer">IBM</div>
+      <div class="cert-name">Databases and SQL for Data Science with Python</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--ink2); padding: 8rem 10vw;">
+  <div class="section-header fade-in">
+    <div class="section-num">05 — Contact</div>
+    <h2 class="section-title">Let's <em>Connect</em></h2>
+  </div>
+  <div class="contact-inner">
+    <div class="fade-in">
+      <p class="contact-intro">Have a project or opportunity? Let's create something <em>remarkable</em> together.</p>
+      <a href="mailto:turki.m.alhumaid@gmail.com" class="contact-email">turki.m.alhumaid@gmail.com</a>
+      <div class="contact-phone">+966 53 611 1008</div>
+      <div class="socials">
+        <a href="https://linkedin.com/in/turkialhumaid-cs" target="_blank" class="social-link">LinkedIn</a>
+        <a href="https://github.com/xfcbe" target="_blank" class="social-link">GitHub</a>
+      </div>
+    </div>
+    <div class="contact-form fade-in">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-input" placeholder="Your full name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell me about your project or opportunity…"></textarea>
+      </div>
+      <button class="btn-primary" style="align-self:flex-start; margin-top:0.5rem">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Turki Alhumaid</span>
+  <span>© 2026 — Riyadh, Saudi Arabia</span>
+  <span>CS @ King Faisal University</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
